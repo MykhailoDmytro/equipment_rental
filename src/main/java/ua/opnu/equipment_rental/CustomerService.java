@@ -15,15 +15,15 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public List<Customer> getAllCustomers() {
+    public List<Customer> getAll() {
         return customerRepository.findAll();
     }
 
-    public Customer update(Long id, Customer customer) {
-        Customer existing = customerRepository.findById(id).orElseThrow();
-        existing.setName(customer.getName());
-        existing.setPhone(customer.getPhone());
-        return customerRepository.save(existing);
+    public Customer update(Long id, Customer updatedCustomer) {
+        Customer customer = customerRepository.findById(id).orElseThrow();
+        customer.setName(updatedCustomer.getName());
+        customer.setPhone(updatedCustomer.getPhone());
+        return customerRepository.save(customer);
     }
 
     public void delete(Long id) {

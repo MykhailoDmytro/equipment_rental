@@ -15,15 +15,15 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
 
-    public Employee update(Long id, Employee employee) {
-        Employee existing = employeeRepository.findById(id).orElseThrow();
-        existing.setName(employee.getName());
-        existing.setPosition(employee.getPosition());
-        return employeeRepository.save(existing);
+    public Employee update(Long id, Employee updatedEmployee) {
+        Employee employee = employeeRepository.findById(id).orElseThrow();
+        employee.setName(updatedEmployee.getName());
+        employee.setPosition(updatedEmployee.getPosition());
+        return employeeRepository.save(employee);
     }
 
     public void delete(Long id) {

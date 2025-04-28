@@ -1,7 +1,6 @@
 package ua.opnu.equipment_rental;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +19,12 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
-        return new ResponseEntity<>(customerService.save(customer), HttpStatus.CREATED);
+        return ResponseEntity.ok(customerService.save(customer));
     }
 
     @GetMapping
     public ResponseEntity<List<Customer>> getAllCustomers() {
-        return ResponseEntity.ok(customerService.getAllCustomers());
+        return ResponseEntity.ok(customerService.getAll());
     }
 
     @PutMapping("/{id}")

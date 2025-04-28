@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -20,7 +21,6 @@ public class RentalController {
 
     @PostMapping
     public ResponseEntity<Rental> addRental(@RequestBody Rental rental) {
-        // Тут ми зберігаємо оренду разом з пов'язаними об'єктами
         return new ResponseEntity<>(rentalService.save(rental), HttpStatus.CREATED);
     }
 
@@ -43,5 +43,35 @@ public class RentalController {
     public ResponseEntity<Void> deleteRental(@PathVariable Long id) {
         rentalService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<Rental>> getActiveRentals() {
+        return ResponseEntity.ok(rentalService.getActiveRentals());
+    }
+
+    @GetMapping("/overdue")
+    public ResponseEntity<List<Rental>> getOverdueRentals() {
+        return ResponseEntity.ok(rentalService.getOverdueRentals());
+    }
+
+    @GetMapping("/available")
+    public ResponseEntity<List<Equipment>> getAvailableEquipment(@RequestParam LocalDate date) {
+        return ResponseEntity.ok(rentalService.getAvailableEquipmentOnDate(date));
+    }
+
+    @GetMapping("/equipment/{equipmentId}/count")
+    public ResponseEntity<Long> countRentalsByEquipment(@PathVariable Long equipmentId) {
+        return ResponseEntity.ok(rentalService.countRentalsByEquipment(equipmentId));
+    }
+
+    @GetMapping("/revenue")
+    public ResponseEntity<Double> getTotalRevenue() {
+        return ResponseEntity.ok(rentalService.getTotalRevenue());
+    }
+
+    @GetMapping("/most-rented")
+    public ResponseEntity<List<Equipment>> getMostRentedEquipment() {
+        return ResponseEntity.ok(rentalService.getMostRentedEquipment());
     }
 }

@@ -1,7 +1,6 @@
 package ua.opnu.equipment_rental;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,12 +19,12 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<Employee> addEmployee(@RequestBody Employee employee) {
-        return new ResponseEntity<>(employeeService.save(employee), HttpStatus.CREATED);
+        return ResponseEntity.ok(employeeService.save(employee));
     }
 
     @GetMapping
     public ResponseEntity<List<Employee>> getAllEmployees() {
-        return ResponseEntity.ok(employeeService.getAllEmployees());
+        return ResponseEntity.ok(employeeService.getAll());
     }
 
     @PutMapping("/{id}")

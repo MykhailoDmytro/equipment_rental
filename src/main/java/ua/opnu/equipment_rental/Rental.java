@@ -1,6 +1,7 @@
 package ua.opnu.equipment_rental;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -79,5 +80,17 @@ public class Rental {
 
     public void setReturned(Boolean returned) {
         this.returned = returned;
+    }
+
+    public BigDecimal calculateRentalCost() {
+        if (equipment == null || startDate == null || endDate == null) {
+            return BigDecimal.ZERO;
+        }
+        long daysRented = java.time.temporal.ChronoUnit.DAYS.between(startDate, endDate);
+        return equipment.getDailyRate().multiply(BigDecimal.valueOf(daysRented));
+    }
+
+    public boolean isAvailable() {
+        return equipment != null && equipment.getAvailability();
     }
 }

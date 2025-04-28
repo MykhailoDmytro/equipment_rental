@@ -1,14 +1,18 @@
 package ua.opnu.equipment_rental;
 
 import org.springframework.stereotype.Service;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RentalService {
     private final RentalRepository rentalRepository;
+    private final EquipmentRepository equipmentRepository;
 
-    public RentalService(RentalRepository rentalRepository) {
+    public RentalService(RentalRepository rentalRepository, EquipmentRepository equipmentRepository) {
         this.rentalRepository = rentalRepository;
+        this.equipmentRepository = equipmentRepository;
     }
 
     public Rental save(Rental rental) {
@@ -31,5 +35,33 @@ public class RentalService {
 
     public void delete(Long id) {
         rentalRepository.deleteById(id);
+    }
+
+    public List<Rental> getActiveRentals() {
+        return rentalRepository.findByReturnedFalse();
+    }
+
+    public List<Rental> getOverdueRentals() {
+        return rentalRepository.findOverdueRentals();
+    }
+
+    public List<Equipment> getAvailableEquipmentOnDate(LocalDate date) {
+        List<Long> unavailableIds = rentalRepository.findUnavailableEquipmentIdsByDate(date);
+        return equipmentRepository.findAll()
+                .stream()
+                .filter(e -> !unavailableIds.contains(e.getId()) && Boolean.TRUE.equals(e.getAvailability()))
+                .collect(Collectors.toList());
+    }
+
+    public Long countRentalsByEquipment(Long equipmentId) {
+        return rentalRepository.countByEquipmentId(equipmentId);
+    }
+
+    public Double getTotalRevenue() {
+        return rentalRepository.getTotalRevenue();
+    }
+
+    public List<Equipment> getMostRentedEquipment() {
+        return rentalRepository.findMostRentedEquipment();
     }
 }
