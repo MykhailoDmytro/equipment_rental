@@ -82,6 +82,7 @@ public class Rental {
         this.returned = returned;
     }
 
+    // Обчислення вартості оренди
     public BigDecimal calculateRentalCost() {
         if (equipment == null || startDate == null || endDate == null) {
             return BigDecimal.ZERO;

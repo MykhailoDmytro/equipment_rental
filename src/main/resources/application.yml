@@ -8,7 +8,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   datasource:
-    url: jdbc:postgresql://dpg-d054qsmuk2gs73e957b0-a/equipment_rental
+    url: jdbc:postgresql://dpg-d054qsmuk2gs73e957b0-a.oregon-postgres.render.com/equipment_rental
     username: mihajlov
     password: YNw9emL06HBigs58r4s8xpD8u614kuZX
     driverClassName: org.postgresql.Driver

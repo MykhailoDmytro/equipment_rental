@@ -57,8 +57,12 @@ public class RentalService {
         return rentalRepository.countByEquipmentId(equipmentId);
     }
 
+    // Обчислюємо загальний дохід
     public Double getTotalRevenue() {
-        return rentalRepository.getTotalRevenue();
+        List<Rental> rentals = rentalRepository.findReturnedRentals(); // Отримуємо всі повернуті оренди
+        return rentals.stream() // Перетворюємо на потік
+                .mapToDouble(rental -> rental.calculateRentalCost().doubleValue()) // Розраховуємо дохід для кожної оренди
+                .sum(); // Підсумовуємо
     }
 
     public List<Equipment> getMostRentedEquipment() {
